@@ -21,7 +21,7 @@ $check = isset($argv[1]) && $argv[1] === '-c';
 if ($issues) {
     echo "\nSe ha indicado la opción '\033[1;28m-i\033[0m'. Se actualizarán las incidencias\n";
     echo "en GitHub y se anotarán los enlaces correspondientes en los\n";
-    echo "archivos '\033[1;28mrequisitos.md\033[0m' y '\033[1;28mrequisitos.xls\033[0m' (en cambio, si este\n";
+    echo "archivos '\033[1;28mrequisitos.md\033[0m' y '\033[1;28mrequisitos.xlsx\033[0m' (en cambio, si este\n";
     echo "último contiene ya anotadas las incidencias creadas, no se\n";
     echo "volverán a crear ni se modificarán en GitHub).\n\n";
     echo "\033[1;31m*** ESTE PROCESO ES IRREVERSIBLE Y NO SE PUEDE INTERRUMPIR ***\033[0m\n\n";
@@ -34,7 +34,7 @@ if ($issues) {
 }
 
 \PhpOffice\PhpSpreadsheet\Settings::setLocale('es');
-$objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load(BASE_DIR . '/requisitos.xls');
+$objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load(BASE_DIR . '/requisitos.xlsx');
 $objWorksheet = $objPHPExcel->getSheet(0);
 $highestRow = $objWorksheet->getHighestDataRow(); // e.g. 10
 $highestColumn = $objWorksheet->getHighestDataColumn(); // e.g 'F'
@@ -45,7 +45,7 @@ $tipos = ['Funcional', 'Técnico', 'Información'];
 $complejidades = ['Fácil', 'Media', 'Difícil'];
 $entregas = ['v1', 'v2', 'v3'];
 
-echo "\033[1;28m# Comprobando archivo requisitos.xls...\033[0m\n";
+echo "\033[1;28m# Comprobando archivo requisitos.xlsx...\033[0m\n";
 
 for ($fallo = 0, $row = 2; $row <= $highestRow; $row++) {
     echo "\r(" . ($row - 1) . '/' . ($highestRow - 1) . ') ';
@@ -81,7 +81,7 @@ for ($fallo = 0, $row = 2; $row <= $highestRow; $row++) {
 }
 
 if ($fallo == 0) {
-    echo "\r\033[1;28m# No se han encontrado errores en el archivo 'requisitos.xls'.\033[0m\n";
+    echo "\r\033[1;28m# No se han encontrado errores en el archivo 'requisitos.xlsx'.\033[0m\n";
     if ($check) {
         exit(0);
     }
@@ -196,7 +196,7 @@ $resumen = "\n## Cuadro resumen\n\n"
          . '| :------------ | :-----------: | :------: | :-------------: | :---------: |'
          . ($issues ? ' :------------: |' : '') . "\n";
 
-echo "\033[1;28m# Leyendo archivo requisitos.xls...\033[0m\n";
+echo "\033[1;28m# Leyendo archivo requisitos.xlsx...\033[0m\n";
 
 for ($row = 2, $i = 1; $row <= $highestRow; $row++) {
     echo '(' . ($row - 1) . '/' . ($highestRow - 1) . ') ';
@@ -269,9 +269,9 @@ echo "\033[1;28m# Generando archivo requisitos.md...\033[0m\n";
 file_put_contents(BASE_DIR . '/requisitos.md', $requisitos . $resumen, LOCK_EX);
 
 if ($issues) {
-    echo "\033[1;28m# Actualizando archivo requisitos.xls...\033[0m\n";
+    echo "\033[1;28m# Actualizando archivo requisitos.xlsx...\033[0m\n";
     $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($objPHPExcel);
-    $writer->save(BASE_DIR . '/requisitos.xls');
+    $writer->save(BASE_DIR . '/requisitos.xlsx');
 /*    echo "\033[1;31m# No olvides ir a https://github.com/$login/$repo/projects/{$project['number']}\n";
     echo "  para configurar la automatización de las columnas del proyecto en GitHub.\033[0m\n"; */
 }

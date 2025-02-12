@@ -15,7 +15,7 @@ vendor/bundle:
 	@bundle config set path 'vendor/bundle'
 	@bundle install
 
-propuesta.pdf: requisitos.xls propuesta.md
+propuesta.pdf: requisitos.xlsx propuesta.md
 	@php scripts/requisitos.php
 	@pandoc -f markdown-smart -s propuesta.md requisitos.md -o pro.adoc
 	@scripts/replace.sh
